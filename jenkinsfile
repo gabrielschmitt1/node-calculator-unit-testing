@@ -1,0 +1,15 @@
+stage("Integration Tests"){
+    when {
+        beforeAgent true
+         }
+         agent {
+           docker {
+               image 'python:3.8-alpine'
+           }
+         }
+         steps{
+                sh"""
+                pip install -r requirements-robot.txt
+                robot -d results ./tests
+                """
+         }
