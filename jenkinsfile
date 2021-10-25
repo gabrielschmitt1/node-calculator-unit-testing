@@ -1,37 +1,12 @@
 pipeline {
-  agent {
-      docker {
-        image 'python:3.8-alpine'
-      }
-  }
-  stages {
-        stage('Integration Tests') {
-          steps {
-                    sh'''
-                        pip install -r requirements.txt
-                        robot -d results ./tests
-                        '''
-                }
-          post {
-            always {
-                script {
-                  step(
-                        [
-                          $class              : 'RobotPublisher',
-                          outputPath          : 'reports',
-                          outputFileName      : '**/output.xml',
-                          reportFileName      : '**/report.html',
-                          logFileName         : '**/log.html',
-                          disableArchiveOutput: false,
-                          passThreshold       : 50,
-                          unstableThreshold   : 40,
-                          otherFiles          : "**/*.png,**/*.jpg",
-                        ]
-                      )
-                }
-              }        
+    agent {
+        docker { image 'node:14-alpine' }
+    }
+    stages {
+        stage('Test') {
+            steps {
+                sh 'node --version'
+            }
         }
-    }    
-  }
-  
+    }
 }
