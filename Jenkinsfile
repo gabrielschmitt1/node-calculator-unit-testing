@@ -5,6 +5,11 @@ pipeline {
         }
     }
     stages {
+        stage('Initialize'){
+            /* groovylint-disable-next-line NoDef, VariableTypeRequired */
+            def dockerHome = tool 'myDocker'
+            env.PATH = "${dockerHome}/bin:${env.PATH}"
+        }
         stage('Build') {
             steps {
                 sh 'node --version'
